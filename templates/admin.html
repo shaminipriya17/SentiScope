@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SentiScope Admin Panel</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="dashboard-layout">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            🧠 SentiScope
+        </div>
+
+        <ul>
+
+            <li>
+                <a href="/">Home</a>
+            </li>
+
+            <li>
+                <a href="/dashboard">Dashboard</a>
+            </li>
+
+            <li class="active">
+                <a href="/admin">Admin Panel</a>
+            </li>
+
+            <li>
+                <a href="/logout">Logout</a>
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+        <!-- HEADER -->
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>Admin Control Center</h1>
+
+                <p>
+                    Monitor platform activity and manage users
+                </p>
+
+            </div>
+
+            <div class="user-badge">
+
+                {{ user }}
+
+            </div>
+
+        </div>
+
+        <!-- STATISTICS -->
+
+        <div class="stats-grid">
+
+            <div class="stat-card">
+
+                <span>Total Users</span>
+
+                <h2>{{ total_users }}</h2>
+
+            </div>
+
+            <div class="stat-card">
+
+                <span>Total Reviews</span>
+
+                <h2>{{ total_reviews }}</h2>
+
+            </div>
+
+            <div class="stat-card positive-card">
+
+                <span>Positive Reviews</span>
+
+                <h2>{{ positive_reviews }}</h2>
+
+            </div>
+
+            <div class="stat-card negative-card">
+
+                <span>Negative Reviews</span>
+
+                <h2>{{ negative_reviews }}</h2>
+
+            </div>
+
+        </div>
+
+        <!-- USERS TABLE -->
+
+        <div class="table-card">
+
+            <div class="section-header">
+
+                <h2>Registered Users</h2>
+
+            </div>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for user in users %}
+
+                    <tr>
+
+                        <td>{{ user[0] }}</td>
+
+                        <td>{{ user[1] }}</td>
+
+                        <td>{{ user[2] }}</td>
+
+                        <td>
+
+                            {% if user[4] == "admin" %}
+
+                                <span class="badge-admin">
+                                    Admin
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge-user">
+                                    User
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <!-- REVIEWS TABLE -->
+
+        <div class="table-card">
+
+            <div class="section-header">
+
+                <h2>All Sentiment Reviews</h2>
+
+            </div>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Review</th>
+                        <th>Sentiment</th>
+                        <th>Confidence</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for review in reviews %}
+
+                    <tr>
+
+                        <td>{{ review[0] }}</td>
+
+                        <td>{{ review[1] }}</td>
+
+                        <td>{{ review[2] }}</td>
+
+                        <td>
+
+                            {% if review[3] == "Positive" %}
+
+                                <span class="badge-positive">
+                                    Positive
+                                </span>
+
+                            {% elif review[3] == "Negative" %}
+
+                                <span class="badge-negative">
+                                    Negative
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge-neutral">
+                                    Neutral
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            {{ review[4] }}%
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+</div>
+
+</body>
+</html>

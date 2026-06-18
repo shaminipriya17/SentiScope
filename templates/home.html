@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SentiScope Pro</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar navbar-expand-lg">
+
+<div class="container-custom d-flex justify-content-between align-items-center">
+
+<a class="navbar-brand">
+SentiScope
+</a>
+
+<div class="d-flex align-items-center gap-3">
+
+<span class="text-light">
+Welcome, {{ user }}
+</span>
+
+<a href="/dashboard"
+class="btn btn-outline-light">
+Analytics
+</a>
+
+{% if role == "admin" %}
+<a href="/admin"
+class="btn btn-warning">
+Admin Panel
+</a>
+{% endif %}
+
+<a href="/logout"
+class="btn btn-danger">
+Logout
+</a>
+
+</div>
+
+</div>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero">
+
+<div class="container-custom">
+
+<div class="hero-grid">
+
+<!-- LEFT -->
+
+<div>
+
+<h1 class="hero-title">
+AI-Powered Customer Sentiment Intelligence
+</h1>
+
+<p class="hero-text">
+
+Analyze customer reviews using Machine Learning,
+Natural Language Processing and Business Analytics.
+
+Gain real-time insights into customer satisfaction,
+complaints and sentiment trends.
+
+</p>
+
+<div class="hero-actions">
+
+<a href="#analyze"
+class="btn btn-primary btn-lg">
+
+Start Analysis
+
+</a>
+
+<a href="/dashboard"
+class="btn btn-outline-light btn-lg">
+
+View Analytics
+
+</a>
+
+</div>
+
+<!-- STATS -->
+
+<div class="stats-grid">
+
+<div class="stat-card">
+
+<h1>95%</h1>
+
+<h3>
+Prediction Accuracy
+</h3>
+
+</div>
+
+<div class="stat-card">
+
+<h1>AI</h1>
+
+<h3>
+Powered Analytics
+</h3>
+
+</div>
+
+<div class="stat-card">
+
+<h1>24/7</h1>
+
+<h3>
+Real-Time Processing
+</h3>
+
+</div>
+
+<div class="stat-card">
+
+<h1>NLP</h1>
+
+<h3>
+Text Intelligence
+</h3>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="overview-card glass-card">
+
+<h2>
+Project Overview
+</h2>
+
+<ul>
+
+<li>
+✔ NLP Based Sentiment Detection
+</li>
+
+<li>
+✔ TF-IDF Feature Engineering
+</li>
+
+<li>
+✔ Logistic Regression Model
+</li>
+
+<li>
+✔ Interactive Analytics Dashboard
+</li>
+
+<li>
+✔ Admin Monitoring Panel
+</li>
+
+<li>
+✔ Real-Time Prediction System
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ANALYSIS SECTION -->
+
+<section id="analyze">
+
+<div class="analysis-card">
+
+<h2>
+Analyze Customer Review
+</h2>
+
+<form action="/predict" method="POST">
+
+<textarea
+class="review-box"
+name="review"
+placeholder="Enter customer review here..."
+required></textarea>
+
+<div class="text-center mt-4">
+
+<button
+type="submit"
+class="btn btn-primary btn-lg">
+
+Analyze Sentiment
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</section>
+
+<!-- FEATURES -->
+
+<section class="container-custom mb-5">
+
+<h2 class="text-center section-title">
+Platform Features
+</h2>
+
+<p class="text-center section-subtitle mb-5">
+
+Enterprise-grade sentiment analysis platform
+for customer intelligence and business analytics.
+
+</p>
+
+<div class="stats-grid">
+
+<div class="glass-card p-4">
+
+<h3>
+AI Analysis Engine
+</h3>
+
+<p class="section-subtitle">
+
+Uses Machine Learning and NLP
+to classify customer sentiment.
+
+</p>
+
+</div>
+
+<div class="glass-card p-4">
+
+<h3>
+Business Analytics
+</h3>
+
+<p class="section-subtitle">
+
+Visual dashboards for actionable
+customer insights.
+
+</p>
+
+</div>
+
+<div class="glass-card p-4">
+
+<h3>
+Admin Control
+</h3>
+
+<p class="section-subtitle">
+
+Manage users, reviews and
+platform activity.
+
+</p>
+
+</div>
+
+<div class="glass-card p-4">
+
+<h3>
+Real-Time Processing
+</h3>
+
+<p class="section-subtitle">
+
+Instant sentiment predictions
+with confidence scores.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- PROCESS -->
+
+<section class="container-custom mb-5">
+
+<div class="glass-card p-5 text-center">
+
+<h2 class="mb-4">
+How SentiScope Works
+</h2>
+
+<div class="pipeline">
+
+Review
+
+<span>→</span>
+
+Preprocessing
+
+<span>→</span>
+
+TF-IDF
+
+<span>→</span>
+
+Machine Learning
+
+<span>→</span>
+
+Prediction
+
+<span>→</span>
+
+Analytics
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+© 2026 SentiScope Pro |
+AI-Powered Sentiment Analytics Platform
+
+</footer>
+
+</body>
+</html>

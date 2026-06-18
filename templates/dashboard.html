@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SentiScope Analytics Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+```
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <h2> SentiScope</h2>
+
+        <p>AI Sentiment Analytics</p>
+
+    </div>
+
+    <nav>
+
+        <a href="/" class="active">
+             Home
+        </a>
+
+        <a href="/dashboard">
+             Dashboard
+        </a>
+
+        {% if role == "admin" %}
+        <a href="/admin">
+             Admin Panel
+        </a>
+        {% endif %}
+
+        <a href="/logout">
+             Logout
+        </a>
+
+    </nav>
+
+</aside>
+
+<!-- CONTENT -->
+
+<main class="content">
+
+    <!-- HEADER -->
+
+    <div class="dashboard-header">
+
+        <div>
+
+            <h1>
+                Welcome {{ name }}
+                {% if role == "admin" %}
+                
+                {% endif %}
+            </h1>
+
+            <p>
+                Real-time Customer Sentiment Intelligence Dashboard
+            </p>
+
+        </div>
+
+        <div class="dashboard-actions">
+
+            <a href="/" class="action-btn">
+                New Analysis
+            </a>
+
+            {% if role == "admin" %}
+            <a href="/admin" class="action-btn admin-btn">
+                Admin Panel
+            </a>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- KPI CARDS -->
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <h3>Total Reviews</h3>
+            <h1>{{ total }}</h1>
+        </div>
+
+        <div class="stat-card positive">
+            <h3>Positive Reviews</h3>
+            <h1>{{ positive }}</h1>
+        </div>
+
+        <div class="stat-card negative">
+            <h3>Negative Reviews</h3>
+            <h1>{{ negative }}</h1>
+        </div>
+
+        <div class="stat-card neutral">
+            <h3>Neutral Reviews</h3>
+            <h1>{{ neutral }}</h1>
+        </div>
+
+        <div class="stat-card">
+            <h3>Positive Rate</h3>
+
+            <h1>
+                {% if total > 0 %}
+                {{ ((positive/total)*100)|round(1) }}%
+                {% else %}
+                0%
+                {% endif %}
+            </h1>
+        </div>
+
+        <div class="stat-card">
+            <h3>System Status</h3>
+            <h1>LIVE</h1>
+        </div>
+
+    </div>
+
+    <!-- CHARTS -->
+
+    <div class="chart-grid">
+
+        <div class="chart-card">
+
+            <h2>Sentiment Distribution</h2>
+
+            <canvas id="pieChart"></canvas>
+
+        </div>
+
+        <div class="chart-card">
+
+            <h2>Sentiment Comparison</h2>
+
+            <canvas id="barChart"></canvas>
+
+        </div>
+
+    </div>
+
+    <!-- INSIGHTS -->
+
+    <div class="chart-grid">
+
+        <div class="chart-card">
+
+            <h2>Business Insights</h2>
+
+            <ul style="line-height:2">
+
+                <li>Total Reviews Analysed: {{ total }}</li>
+                <li>Positive Reviews: {{ positive }}</li>
+                <li>Negative Reviews: {{ negative }}</li>
+                <li>Neutral Reviews: {{ neutral }}</li>
+                <li>Model: Logistic Regression + TF-IDF</li>
+
+            </ul>
+
+        </div>
+
+        <div class="chart-card">
+
+            <h2>Platform Overview</h2>
+
+            <p>
+
+                SentiScope transforms customer reviews into
+                actionable business intelligence using
+                Natural Language Processing and Machine Learning.
+
+                The system classifies customer sentiment,
+                identifies patterns and provides analytics
+                for decision-making.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- KEYWORDS -->
+
+    <div class="keywords-card">
+
+        <h2>
+             Top Frequent Keywords
+        </h2>
+
+        <div class="keyword-list">
+
+            {% for word in keywords %}
+
+            <span class="keyword-tag">
+                {{ word }}
+            </span>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <!-- REVIEWS -->
+
+    <div class="reviews-card">
+
+        <div class="card-header">
+
+            <h2>
+                Recent Reviews
+            </h2>
+
+            <input
+            type="text"
+            id="reviewSearch"
+            placeholder="Search Reviews..."
+            class="search-box">
+
+        </div>
+
+        <table id="reviewTable">
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+                    <th>User</th>
+                    <th>Review</th>
+                    <th>Sentiment</th>
+                    <th>Confidence</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for review in reviews %}
+
+            <tr>
+
+                <td>{{ review[0] }}</td>
+
+                <td>{{ review[1] }}</td>
+
+                <td>{{ review[2] }}</td>
+
+                <td>
+
+                    {% if review[3] == "Positive" %}
+                    <span class="badge-positive">
+                        Positive
+                    </span>
+
+                    {% elif review[3] == "Negative" %}
+                    <span class="badge-negative">
+                        Negative
+                    </span>
+
+                    {% else %}
+                    <span class="badge-neutral">
+                        Neutral
+                    </span>
+                    {% endif %}
+
+                </td>
+
+                <td>
+
+                    <div class="confidence-bar">
+
+                        <div
+                        class="confidence-fill"
+                        style="width:{{ review[4] }}%">
+                        </div>
+
+                    </div>
+
+                    {{ review[4] }}%
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</main>
+```
+
+</div>
+
+<script>
+
+const positive = {{ positive }};
+const negative = {{ negative }};
+const neutral = {{ neutral }};
+
+new Chart(
+document.getElementById('pieChart'),
+{
+type:'doughnut',
+data:{
+labels:['Positive','Negative','Neutral'],
+datasets:[{
+data:[positive,negative,neutral],
+backgroundColor:[
+'#22c55e',
+'#ef4444',
+'#f59e0b'
+]
+}]
+}
+}
+);
+
+new Chart(
+document.getElementById('barChart'),
+{
+type:'bar',
+data:{
+labels:['Positive','Negative','Neutral'],
+datasets:[{
+label:'Reviews',
+data:[positive,negative,neutral]
+}]
+}
+}
+);
+
+document
+.getElementById("reviewSearch")
+.addEventListener("keyup", function(){
+
+let filter =
+this.value.toLowerCase();
+
+let rows =
+document.querySelectorAll(
+"#reviewTable tbody tr"
+);
+
+rows.forEach(function(row){
+
+let text =
+row.innerText.toLowerCase();
+
+row.style.display =
+text.includes(filter)
+? ""
+: "none";
+
+});
+
+});
+
+</script>
+
+</body>
+</html>

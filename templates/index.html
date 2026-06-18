@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>SentiScope AI</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static',
+filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<h2>SentiScope AI</h2>
+
+<div>
+
+<a href="/dashboard">
+Dashboard
+</a>
+
+<a href="/logout">
+Logout
+</a>
+
+</div>
+
+</nav>
+
+<section class="hero">
+
+<div class="hero-box">
+
+<h1>
+
+AI Powered Customer Review
+Sentiment Analysis
+
+</h1>
+
+<p>
+
+Analyze customer feedback instantly
+using Natural Language Processing
+and Machine Learning.
+
+</p>
+
+<form action="/predict"
+method="POST">
+
+<textarea
+name="review"
+rows="8"
+placeholder="Enter customer review..."
+required></textarea>
+
+<button type="submit">
+
+Analyze Sentiment
+
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+</body>
+</html>
